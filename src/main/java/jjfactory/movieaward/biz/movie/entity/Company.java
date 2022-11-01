@@ -22,6 +22,7 @@ public class Company extends BaseEntity {
     private Long id;
 
     private String name;
+    @Column(unique = true)
     @Comment("사업자 번호")
     private String bizNum;
 

@@ -1,4 +1,4 @@
-package jjfactory.movieaward.movie.entity;
+package jjfactory.movieaward.biz.movie.entity;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,12 +9,12 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Movie {
+public class Director {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "company_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private MovieCompany movieCompany;
+    @Column(unique = true)
+    private String directorCode;
+    private String name;
 }

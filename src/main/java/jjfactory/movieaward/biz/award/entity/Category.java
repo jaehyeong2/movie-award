@@ -1,4 +1,4 @@
-package jjfactory.movieaward.biz.movie.entity.award;
+package jjfactory.movieaward.biz.award.entity;
 
 import jjfactory.movieaward.global.entity.BaseEntity;
 import lombok.AccessLevel;

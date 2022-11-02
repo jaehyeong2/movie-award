@@ -1,6 +1,6 @@
-package jjfactory.movieaward.biz.movie.entity.award;
+package jjfactory.movieaward.biz.award.entity;
 
-import jjfactory.movieaward.biz.movie.entity.Director;
+import jjfactory.movieaward.biz.movie.entity.Actor;
 import jjfactory.movieaward.global.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class AwardDirector extends BaseEntity {
+public class AwardToActor extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,12 +22,12 @@ public class AwardDirector extends BaseEntity {
     private Award award;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "director_id")
-    private Director director;
+    @JoinColumn(name = "actor_id")
+    private Actor actor;
 
     @Builder
-    public AwardDirector(Award award, Director director) {
+    public AwardToActor(Award award, Actor actor) {
         this.award = award;
-        this.director = director;
+        this.actor = actor;
     }
 }

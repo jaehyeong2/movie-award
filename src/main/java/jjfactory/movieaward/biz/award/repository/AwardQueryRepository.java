@@ -1,4 +1,4 @@
-package jjfactory.movieaward.biz.movie.repository.award;
+package jjfactory.movieaward.biz.award.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,12 +11,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static jjfactory.movieaward.biz.review.entity.QReview.*;
 
 @RequiredArgsConstructor
 @Repository
 public class AwardQueryRepository {
     private final JPAQueryFactory queryFactory;
-
 
 }

@@ -17,12 +17,12 @@ public class CompanyApi {
     private final CompanyService companyService;
 
     @GetMapping("/{companyId}")
-    public ApiResponse<CompanyDetailRes> get(@PathVariable Long companyId){
+    public ApiResponse<CompanyDetailRes> findCompany(@PathVariable Long companyId){
         return new ApiResponse<>(companyService.findOne(companyId));
     }
 
     @GetMapping
-    public ApiListResponse<CompanyRes> getAll(){
+    public ApiListResponse<CompanyRes> findAllCompany(){
         return new ApiListResponse<>(companyService.findAll());
     }
 

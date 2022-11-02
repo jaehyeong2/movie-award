@@ -8,10 +8,7 @@ import jjfactory.movieaward.biz.movie.entity.Actor;
 import jjfactory.movieaward.biz.movie.entity.Company;
 import jjfactory.movieaward.biz.movie.entity.Movie;
 import jjfactory.movieaward.biz.movie.entity.MovieActor;
-import jjfactory.movieaward.biz.movie.repository.CompanyRepository;
-import jjfactory.movieaward.biz.movie.repository.MovieActorRepository;
-import jjfactory.movieaward.biz.movie.repository.MovieQueryRepository;
-import jjfactory.movieaward.biz.movie.repository.MovieRepository;
+import jjfactory.movieaward.biz.movie.repository.*;
 import jjfactory.movieaward.global.dto.res.PagingRes;
 import jjfactory.movieaward.global.entity.Country;
 import jjfactory.movieaward.global.util.DbUtils;
@@ -44,19 +41,25 @@ public class MovieService {
     /**
      * 영화는 배우가 없을 수 있따.
      */
-    public void save(Long companyId, MovieCreate dto){
-        Company company = DbUtils.getOrThrow(companyRepository, companyId);
+    public Long save(MovieCreate dto){
+        Company company = DbUtils.getOrThrow(companyRepository, dto.getCompanyId());
 
         Movie movie = Movie.create(company, dto);
         movieRepository.save(movie);
+
+        if(dto.getActorIds()!=null){
+            List<Actor> actors = movieQueryRepository.findActors(dto.getActorIds());
+
+            addActors(movie,actors);
+        }
+        return movie.getId();
     }
 
-    public void addActors(Long movieId,List<Actor> actors){
-        Movie movie = DbUtils.getOrThrow(movieRepository, movieId);
-
+    private void addActors(Movie movie,List<Actor> actors){
         actors.forEach(a->{
             MovieActor movieActor = MovieActor.create(movie, a);
             movieActorRepository.save(movieActor);
+            movie.addMovieActors(movieActor);
         });
     }
 
@@ -65,9 +68,14 @@ public class MovieService {
         return "ok";
     }
 
-    public String modify(Long movieId, MovieModify dto){
-        Movie movie = DbUtils.getOrThrow(movieRepository, movieId);
+    public String modify(MovieModify dto){
+        Movie movie = DbUtils.getOrThrow(movieRepository, dto.getMovieId());
         movie.modify(dto);
+
+        if (dto.getActorIds()!= null){
+            List<Actor> actors = movieQueryRepository.findActors(dto.getActorIds());
+            addActors(movie,actors);
+        }
         return "ok";
     }
 }

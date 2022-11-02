@@ -6,6 +6,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jjfactory.movieaward.biz.movie.dto.res.MovieDetailRes;
 import jjfactory.movieaward.biz.movie.dto.res.MovieRes;
+import jjfactory.movieaward.biz.movie.entity.Actor;
+import jjfactory.movieaward.biz.movie.entity.QActor;
 import jjfactory.movieaward.global.entity.Country;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
@@ -16,6 +18,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+import static jjfactory.movieaward.biz.movie.entity.QActor.*;
 import static jjfactory.movieaward.biz.movie.entity.QMovie.*;
 
 @RequiredArgsConstructor
@@ -54,6 +57,12 @@ public class MovieQueryRepository {
                 .fetch().size();
 
         return new PageImpl<>(result,pageable,total);
+    }
+
+    public List<Actor> findActors(List<Long> actorIds){
+        return queryFactory.selectFrom(actor)
+                .where(actor.id.in(actorIds))
+                .fetch();
     }
 
     private static BooleanExpression containsTitle(String title) {

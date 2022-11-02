@@ -4,35 +4,29 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.util.Lazy;
 
 import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class MovieActor {
+public class MovieDirector {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "movie_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    @JoinColumn(name = "actor_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Actor actor;
+    @JoinColumn(name = "director_id")
+    private Director director;
 
     @Builder
-    public MovieActor(Movie movie, Actor actor) {
+    public MovieDirector(Movie movie, Director director) {
         this.movie = movie;
-        this.actor = actor;
-    }
-
-    public static MovieActor create(Movie movie,Actor actor){
-        return MovieActor.builder()
-                .movie(movie)
-                .actor(actor)
-                .build();
+        this.director = director;
     }
 }

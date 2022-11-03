@@ -1,8 +1,10 @@
 package jjfactory.movieaward.biz.review.service;
 
 import jjfactory.movieaward.biz.review.dto.req.UserCreate;
+import jjfactory.movieaward.biz.review.dto.req.UserModify;
 import jjfactory.movieaward.biz.review.entity.User;
 import jjfactory.movieaward.biz.review.repository.UserRepository;
+import jjfactory.movieaward.global.util.DbUtils;
 import jjfactory.movieaward.global.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,13 +41,15 @@ public class UserService {
         return user.getId();
     }
 
-    public void withdraw(){
-
+    public String withdraw(Long userId){
+        User user = DbUtils.getOrThrow(userRepository,userId);
+        user.withdraw();
+        return "ok";
     }
 
-    public void modify(){
-
+    public String updateInfo(Long userId, UserModify dto){
+        User user = DbUtils.getOrThrow(userRepository, userId);
+        user.changeNameAndEmail(dto);
+        return "ok";
     }
-
-
 }

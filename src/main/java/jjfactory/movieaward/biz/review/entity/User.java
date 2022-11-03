@@ -1,6 +1,7 @@
 package jjfactory.movieaward.biz.review.entity;
 
 import jjfactory.movieaward.biz.review.dto.req.UserCreate;
+import jjfactory.movieaward.biz.review.dto.req.UserModify;
 import jjfactory.movieaward.global.entity.Gender;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class User {
     private String name;
     private String email;
     private String birth;
+    private boolean activeStatus;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -27,12 +29,13 @@ public class User {
     private String profileImage;
 
     @Builder
-    public User(String username, String name, String email, String birth, Gender gender) {
+    public User(String username, String name, String email, String birth, Gender gender,boolean activeStatus) {
         this.username = username;
         this.name = name;
         this.email = email;
         this.birth = birth;
         this.gender = gender;
+        this.activeStatus = activeStatus;
     }
 
     public static User create(UserCreate dto){
@@ -42,10 +45,20 @@ public class User {
                 .username(dto.getUsername())
                 .birth(dto.getBirth())
                 .gender(dto.getGender())
+                .activeStatus(true)
                 .build();
     }
 
     public void addProfileImagePath(String imagePath) {
         this.profileImage = imagePath;
+    }
+
+    public void changeNameAndEmail(UserModify dto) {
+        this.name = dto.getName();
+        this.email = dto.getEmail();
+    }
+
+    public void withdraw() {
+        this.activeStatus = false;
     }
 }

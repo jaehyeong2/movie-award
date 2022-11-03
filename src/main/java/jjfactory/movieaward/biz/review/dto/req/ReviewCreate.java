@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class ReviewCreate {
+    private Long userId;
+    private Long movieId;
     private String content;
     private int star;
 

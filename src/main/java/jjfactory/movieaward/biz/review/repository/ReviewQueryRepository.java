@@ -19,6 +19,23 @@ import static jjfactory.movieaward.biz.review.entity.QReview.review;
 public class ReviewQueryRepository {
     private final JPAQueryFactory queryFactory;
 
+    public Page<ReviewRes> findMyReviews(Pageable pageable,Long userId){
+        List<ReviewRes> results = queryFactory.select(Projections.constructor(ReviewRes.class, review))
+                .from(review)
+                .where(review.reviewer.id.eq(userId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(review.createDate.desc())
+                .fetch();
+
+        int total = queryFactory.select(Projections.constructor(ReviewRes.class, review))
+                .from(review)
+                .where(review.reviewer.id.eq(userId))
+                .fetch().size();
+
+        return new PageImpl<>(results,pageable,total);
+    }
+
     public Page<ReviewRes> findReviewsByMovieId(Pageable pageable, Long movieId){
         List<ReviewRes> results = queryFactory.select(Projections.constructor(ReviewRes.class, review))
                 .from(review)

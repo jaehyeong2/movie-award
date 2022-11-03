@@ -4,6 +4,7 @@ import jjfactory.movieaward.biz.movie.entity.Movie;
 import jjfactory.movieaward.biz.movie.repository.MovieRepository;
 import jjfactory.movieaward.biz.review.dto.req.ReviewCreate;
 import jjfactory.movieaward.biz.review.dto.req.ReviewModify;
+import jjfactory.movieaward.biz.review.dto.res.ReviewRes;
 import jjfactory.movieaward.biz.review.entity.Review;
 import jjfactory.movieaward.biz.review.entity.User;
 import jjfactory.movieaward.biz.review.repository.ReviewQueryRepository;
@@ -25,23 +26,31 @@ public class ReviewService {
     private final ReviewQueryRepository reviewQueryRepository;
     private final MovieRepository movieRepository;
 
-    public void findReviews(){
 
+    /**
+     * 내가 작성한 리뷰 조회
+     */
+    @Transactional(readOnly = true)
+    public PagingRes<ReviewRes> findMyReviews(Pageable pageable, Long userId){
+        return new PagingRes(reviewQueryRepository.findMyReviews(pageable,userId));
     }
 
+    /**
+     * 영화 한개 리뷰 조회
+     */
     @Transactional(readOnly = true)
-    public PagingRes findReviewsByMovieId(Pageable pageable, Long movieId){
+    public PagingRes<ReviewRes> findReviewsByMovieId(Pageable pageable, Long movieId){
         return new PagingRes(reviewQueryRepository.findReviewsByMovieId(pageable,movieId));
     }
 
-    public Long save(Long reviewerId, Long movieId, ReviewCreate dto){
-        User user = DbUtils.getOrThrow(userRepository,reviewerId);
-        Movie movie = DbUtils.getOrThrow(movieRepository,movieId);
+    public Long save(ReviewCreate dto){
+        User user = DbUtils.getOrThrow(userRepository,dto.getUserId());
+        Movie movie = DbUtils.getOrThrow(movieRepository,dto.getMovieId());
 
         Review review = Review.create(user, movie, dto);
-        Review save = reviewRepository.save(review);
 
-        return save.getId();
+        reviewRepository.save(review);
+        return review.getId();
     }
 
     public String delete(Long reviewId){

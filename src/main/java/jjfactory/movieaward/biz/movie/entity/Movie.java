@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -71,5 +72,15 @@ public class Movie extends BaseEntity {
 
     public void addMovieDirectors(MovieDirector movieDirector) {
         this.movieDirectors.add(movieDirector);
+    }
+
+    public List<String> getActorNames(){
+        return this.movieActors.stream().map(ma->ma.getActor().getName())
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getDirectorNames(){
+        return this.movieDirectors.stream().map(md->md.getDirector().getName())
+                .collect(Collectors.toList());
     }
 }

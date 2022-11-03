@@ -35,11 +35,7 @@ public class MovieDetailRes {
         this.companyName = movie.getCompany().getName();
         this.genre = movie.getGenre().toString();
         this.movieSeq = movie.getId();
-        this.actorNames = movie.getMovieActors().stream()
-                .map(movieActor -> movieActor.getActor().getName())
-                .collect(Collectors.toList());
-        this.directorNames = movie.getMovieDirectors().stream()
-                .map(md -> md.getDirector().getName())
-                .collect(Collectors.toList());
+        this.actorNames = movie.getActorNames();
+        this.directorNames = movie.getDirectorNames();
     }
 }

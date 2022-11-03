@@ -35,6 +35,9 @@ public class Movie extends BaseEntity {
     @OneToMany(mappedBy = "movie")
     private List<MovieActor> movieActors = new ArrayList<>();
 
+    @OneToMany(mappedBy = "director")
+    private List<MovieDirector> movieDirectors = new ArrayList<>();
+
     @Builder
     public Movie(Company company, String title, MovieGenre genre, int viewCount, Country country, String releaseYear) {
         this.company = company;
@@ -64,5 +67,9 @@ public class Movie extends BaseEntity {
 
     public void addMovieActors(MovieActor movieActor) {
         this.movieActors.add(movieActor);
+    }
+
+    public void addMovieDirectors(MovieDirector movieDirector) {
+        this.movieDirectors.add(movieDirector);
     }
 }

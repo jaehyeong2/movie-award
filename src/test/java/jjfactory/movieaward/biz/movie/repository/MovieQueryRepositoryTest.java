@@ -38,6 +38,7 @@ class MovieQueryRepositoryTest {
     }
 
     @Test
+    @DisplayName("영화 단건 조회 성공")
     void findMovie(){
         Company companyA = Company.builder().name("companyA").build();
         Company companyB = Company.builder().name("companyB").build();
@@ -50,6 +51,7 @@ class MovieQueryRepositoryTest {
                     .genre(MovieGenre.HORROR)
                     .country(Country.JAPAN)
                     .company(companyTmp)
+                    .title("영화에염~")
                     .releaseYear("2021")
                     .build();
             em.persist(find);
@@ -64,6 +66,11 @@ class MovieQueryRepositoryTest {
 
         find.addMovieActors(movieActor1);
         find.addMovieActors(movieActor2);
+
+        Director directorA = Director.builder().name("directorA").build();
+        MovieDirector movieDirector = MovieDirector.create(find, directorA);
+
+        find.addMovieDirectors(movieDirector);
 
         MovieDetailRes result = queryFactory.select(Projections.constructor(MovieDetailRes.class, movie))
                 .from(movie)

@@ -20,6 +20,7 @@ public class MovieDetailRes {
     private String genre;
     private Long movieSeq;
     private List<String> actorNames;
+    private List<String> directorNames;
 
     public MovieDetailRes(String name, String releaseYear, String companyName, String genre) {
         this.name = name;
@@ -36,6 +37,9 @@ public class MovieDetailRes {
         this.movieSeq = movie.getId();
         this.actorNames = movie.getMovieActors().stream()
                 .map(movieActor -> movieActor.getActor().getName())
+                .collect(Collectors.toList());
+        this.directorNames = movie.getMovieDirectors().stream()
+                .map(md -> md.getDirector().getName())
                 .collect(Collectors.toList());
     }
 }

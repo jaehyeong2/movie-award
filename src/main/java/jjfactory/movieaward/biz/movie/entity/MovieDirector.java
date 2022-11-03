@@ -29,4 +29,11 @@ public class MovieDirector {
         this.movie = movie;
         this.director = director;
     }
+
+    public static MovieDirector create(Movie movie,Director director){
+        return MovieDirector.builder()
+                .movie(movie)
+                .director(director)
+                .build();
+    }
 }

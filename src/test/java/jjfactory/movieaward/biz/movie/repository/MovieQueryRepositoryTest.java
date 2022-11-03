@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
@@ -24,7 +23,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static jjfactory.movieaward.biz.movie.entity.QMovie.movie;
-import static org.junit.jupiter.api.Assertions.*;
+
 
 @DataJpaTest
 class MovieQueryRepositoryTest {
@@ -64,14 +63,18 @@ class MovieQueryRepositoryTest {
         MovieActor movieActor1 = MovieActor.create(find, kim);
         MovieActor movieActor2 = MovieActor.create(find, lee);
 
-        find.addMovieActors(movieActor1);
-        find.addMovieActors(movieActor2);
+//        find.addMovieActor(movieActor1);
+//        find.addMovieActor(movieActor2);
+
+        movieActor1.addToMovie();
+        movieActor2.addToMovie();
 
         Director directorA = Director.builder().name("directorA").build();
         MovieDirector movieDirector = MovieDirector.create(find, directorA);
 
-        find.addMovieDirectors(movieDirector);
+//        find.addMovieDirector(movieDirector);
 
+        movieDirector.addToMovie();
         MovieDetailRes result = queryFactory.select(Projections.constructor(MovieDetailRes.class, movie))
                 .from(movie)
                 .where(movie.genre.eq(MovieGenre.HORROR))

@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -29,8 +30,13 @@ public class MovieService {
     private final CompanyRepository companyRepository;
 
     @Transactional(readOnly = true)
-    public PagingRes<MovieRes> findMovies(Pageable pageable, String companyName, String title, String country){
-        return new PagingRes<>(movieQueryRepository.findMovies(pageable,companyName,title, Country.valueOf(country)));
+    public PagingRes<MovieRes> findMovies(Pageable pageable, String companyName, String title, String countryFind){;
+        Country country = null;
+        if(StringUtils.hasText(countryFind)) {
+            country = Country.valueOf(countryFind);
+        }
+
+        return new PagingRes<>(movieQueryRepository.findMoviesInMovieIds(pageable,companyName,title, country));
     }
 
     @Transactional(readOnly = true)
@@ -48,7 +54,7 @@ public class MovieService {
         movieRepository.save(movie);
 
         if(dto.getActorIds()!=null){
-            List<Actor> actors = movieQueryRepository.findActors(dto.getActorIds());
+            List<Actor> actors = movieQueryRepository.findActorsInActorCodes(dto.getActorIds());
 
             addActors(movie,actors);
         }
@@ -59,7 +65,8 @@ public class MovieService {
         actors.forEach(a->{
             MovieActor movieActor = MovieActor.create(movie, a);
             movieActorRepository.save(movieActor);
-            movie.addMovieActors(movieActor);
+//            movie.addMovieActor(movieActor);
+            movieActor.addToMovie();
         });
     }
 
@@ -73,7 +80,7 @@ public class MovieService {
         movie.modify(dto);
 
         if (dto.getActorIds()!= null){
-            List<Actor> actors = movieQueryRepository.findActors(dto.getActorIds());
+            List<Actor> actors = movieQueryRepository.findActorsInActorCodes(dto.getActorIds());
             addActors(movie,actors);
         }
         return "ok";

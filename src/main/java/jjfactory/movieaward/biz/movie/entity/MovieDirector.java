@@ -37,4 +37,14 @@ public class MovieDirector extends BaseEntity {
                 .director(director)
                 .build();
     }
+
+    public void addToMovie(){
+        movie.getMovieDirectors().add(this);
+    }
+
+//    public void addToDirectors(){
+//        director.get().add(this);
+//    }
+
+
 }

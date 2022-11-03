@@ -66,14 +66,6 @@ public class Movie extends BaseEntity {
         this.releaseYear = dto.getReleaseYear();
     }
 
-    public void addMovieActors(MovieActor movieActor) {
-        this.movieActors.add(movieActor);
-    }
-
-    public void addMovieDirectors(MovieDirector movieDirector) {
-        this.movieDirectors.add(movieDirector);
-    }
-
     public List<String> getActorNames(){
         return this.movieActors.stream().map(ma->ma.getActor().getName())
                 .collect(Collectors.toList());

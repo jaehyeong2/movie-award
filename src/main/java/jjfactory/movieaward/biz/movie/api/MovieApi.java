@@ -11,12 +11,15 @@ import jjfactory.movieaward.global.dto.res.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
+@RequestMapping("/movie")
 @RequiredArgsConstructor
 @RestController
 public class MovieApi {
     private final MovieService movieService;
 
-    @GetMapping
+    @GetMapping("/{movieId}")
     public ApiResponse<MovieDetailRes> find(@PathVariable Long movieId){
         return new ApiResponse<>(movieService.findMovie(movieId));
     }
@@ -31,7 +34,7 @@ public class MovieApi {
     }
 
     @PostMapping
-    public ApiResponse<Long> save(@RequestBody MovieCreate dto){
+    public ApiResponse<Long> save(@Valid @RequestBody MovieCreate dto){
         return new ApiResponse<>(movieService.save(dto));
     }
 
@@ -41,7 +44,7 @@ public class MovieApi {
     }
 
     @PutMapping
-    public ApiResponse<String> modify(@RequestBody MovieModify dto){
+    public ApiResponse<String> modify(@Valid @RequestBody MovieModify dto){
         return new ApiResponse<>(movieService.modify(dto));
     }
 }

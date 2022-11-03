@@ -36,4 +36,12 @@ public class MovieActor extends BaseEntity {
                 .actor(actor)
                 .build();
     }
+
+    public void addToMovie(){
+        movie.getMovieActors().add(this);
+    }
+
+    public void addToActor(){
+        actor.getMovieActors().add(this);
+    }
 }

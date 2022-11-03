@@ -4,12 +4,15 @@ package jjfactory.movieaward.biz.movie.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jjfactory.movieaward.biz.movie.dto.res.ActorDetailRes;
+import jjfactory.movieaward.biz.movie.dto.res.ActorRes;
 import jjfactory.movieaward.biz.movie.dto.res.MovieDetailRes;
 import jjfactory.movieaward.biz.movie.dto.res.MovieRes;
 import jjfactory.movieaward.biz.movie.entity.Actor;
-import jjfactory.movieaward.biz.movie.entity.QActor;
+import jjfactory.movieaward.biz.movie.entity.Movie;
 import jjfactory.movieaward.global.entity.Country;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -38,7 +41,7 @@ public class MovieQueryRepository {
      *
      * @return
      */
-    public PageImpl<MovieRes> findMovies(Pageable pageable, String companyName, String title, Country country){
+    public PageImpl<MovieRes> findMoviesInMovieIds(Pageable pageable, String companyName, String title, Country country){
         List<MovieRes> result = queryFactory.select(Projections.constructor(MovieRes.class, movie))
                 .from(movie)
                 .where(containsCompanyName(companyName),
@@ -59,9 +62,37 @@ public class MovieQueryRepository {
         return new PageImpl<>(result,pageable,total);
     }
 
-    public List<Actor> findActors(List<Long> actorIds){
+    public ActorDetailRes findActorDetails(Long actorId){
+        return queryFactory.select(Projections.constructor(ActorDetailRes.class,actor))
+                .from(actor)
+                .where(actor.peopleCode.eq(actorId))
+                .fetchOne();
+    }
+
+    public Page<ActorRes> findActors(Pageable pageable){
+        List<ActorRes> result = queryFactory.select(Projections.constructor(ActorRes.class, actor))
+                .from(actor)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(actor.createDate.desc())
+                .fetch();
+
+        int total = queryFactory.select(Projections.constructor(ActorRes.class, actor))
+                .from(actor)
+                .fetch().size();
+
+        return new PageImpl<>(result,pageable,total);
+    }
+
+    public List<Actor> findActorsInActorCodes(List<Long> actorCodes){
         return queryFactory.selectFrom(actor)
-                .where(actor.id.in(actorIds))
+                .where(actor._super.peopleCode.in(actorCodes))
+                .fetch();
+    }
+
+    public List<Movie> findMoviesInMovieIds(List<Long> movieIds){
+        return queryFactory.selectFrom(movie)
+                .where(movie.id.in(movieIds))
                 .fetch();
     }
 

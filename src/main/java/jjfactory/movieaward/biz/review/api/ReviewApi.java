@@ -11,6 +11,8 @@ import jjfactory.movieaward.global.dto.res.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequestMapping("/review")
 @RequiredArgsConstructor
 @RestController
@@ -32,7 +34,7 @@ public class ReviewApi {
     }
 
     @PostMapping
-    public ApiResponse<Long> save(@RequestBody ReviewCreate dto){
+    public ApiResponse<Long> save(@Valid @RequestBody ReviewCreate dto){
         return new ApiResponse<>(reviewService.save(dto));
     }
 
@@ -43,7 +45,7 @@ public class ReviewApi {
 
     @PutMapping("/{reviewId}")
     public ApiResponse<String> modify(@PathVariable Long reviewId,
-                                      @RequestBody ReviewModify dto){
+                                      @Valid @RequestBody ReviewModify dto){
         return new ApiResponse<>(reviewService.modify(reviewId,dto));
     }
 

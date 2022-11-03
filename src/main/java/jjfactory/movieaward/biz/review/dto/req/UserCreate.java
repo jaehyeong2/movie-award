@@ -5,14 +5,21 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 @NoArgsConstructor
 @Getter
 public class UserCreate {
+    @NotEmpty
     private String name;
+    @NotEmpty
     private String username;
+    @NotEmpty
     private String email;
-
+    @NotEmpty
     private String birth;
+    @NotNull
     private Gender gender;
 
     @Builder

@@ -8,22 +8,14 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@DiscriminatorValue("D")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Director extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    private MovieCode directorCode;
-
-    private String name;
+public class Director extends MoviePeople {
 
     @Builder
-    public Director(MovieCode directorCode, String name) {
-        this.directorCode = directorCode;
-        this.name = name;
+    public Director(String name) {
+        super(name);
     }
 }

@@ -10,6 +10,8 @@ import jjfactory.movieaward.global.dto.res.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequestMapping("/company")
 @RequiredArgsConstructor
 @RestController
@@ -27,7 +29,7 @@ public class CompanyApi {
     }
 
     @PostMapping
-    public ApiResponse<Long> save(@RequestBody CompanyCreate dto){
+    public ApiResponse<Long> save(@Valid @RequestBody CompanyCreate dto){
         return new ApiResponse<>(companyService.save(dto));
     }
 
@@ -38,7 +40,7 @@ public class CompanyApi {
 
     @PutMapping
     public ApiResponse<String> update(@PathVariable Long companyId,
-                                      @RequestBody CompanyModify dto){
+                                      @Valid @RequestBody CompanyModify dto){
         return new ApiResponse<>(companyService.modify(companyId,dto));
     }
 

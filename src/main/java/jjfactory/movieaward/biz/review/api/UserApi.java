@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+
 @RequestMapping("/user")
 @RequiredArgsConstructor
 @RestController
@@ -15,7 +17,7 @@ public class UserApi {
     private final UserService userService;
 
     @PostMapping
-    public ApiResponse<Long> save(@RequestPart UserCreate dto,
+    public ApiResponse<Long> save(@Valid @RequestPart UserCreate dto,
                                   @RequestPart(required = false) MultipartFile image){
         return new ApiResponse<>(userService.join(dto,image));
     }
@@ -27,7 +29,7 @@ public class UserApi {
 
     @PatchMapping("/{userId}")
     public ApiResponse<String> update(@PathVariable Long userId,
-                                      @RequestBody UserModify dto){
+                                      @Valid @RequestBody UserModify dto){
         return new ApiResponse<>(userService.updateInfo(userId,dto));
     }
 

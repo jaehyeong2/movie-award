@@ -5,9 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+
 @NoArgsConstructor
 @Getter
 public class CompanyModify {
+    @NotEmpty
     private String name;
     private Address address;
 

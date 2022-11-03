@@ -25,7 +25,7 @@ public class UserService {
         User user = User.create(dto);
         userRepository.save(user);
 
-        if(!image.isEmpty()){
+        if(image!= null && !image.isEmpty()){
             String folderPath = user.getId()+"/";
             String filePath = folderPath + image.getOriginalFilename();
 

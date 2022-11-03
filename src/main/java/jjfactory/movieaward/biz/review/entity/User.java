@@ -2,6 +2,7 @@ package jjfactory.movieaward.biz.review.entity;
 
 import jjfactory.movieaward.biz.review.dto.req.UserCreate;
 import jjfactory.movieaward.biz.review.dto.req.UserModify;
+import jjfactory.movieaward.global.entity.BaseEntity;
 import jjfactory.movieaward.global.entity.Gender;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class User {
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

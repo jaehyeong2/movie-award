@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@RequestMapping("/user")
 @RequiredArgsConstructor
 @RestController
 public class UserApi {
@@ -15,7 +16,7 @@ public class UserApi {
 
     @PostMapping
     public ApiResponse<Long> save(@RequestPart UserCreate dto,
-                                  @RequestPart MultipartFile image){
+                                  @RequestPart(required = false) MultipartFile image){
         return new ApiResponse<>(userService.join(dto,image));
     }
 

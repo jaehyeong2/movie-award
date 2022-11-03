@@ -11,15 +11,16 @@ import jjfactory.movieaward.global.dto.res.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+@RequestMapping("/review")
 @RequiredArgsConstructor
 @RestController
 public class ReviewApi {
     private final ReviewService reviewService;
 
-    @GetMapping("/{userId}")
+    @GetMapping
     public ApiPagingRes<ReviewRes> findMyReviews(@RequestParam(required = false, defaultValue = "1")int page,
                                                @RequestParam(required = false, defaultValue = "10")int size,
-                                               @PathVariable Long userId){
+                                               @RequestParam Long userId){
         return new ApiPagingRes<>(reviewService.findMyReviews(new MyPageReq(page,size).of(),userId));
     }
 

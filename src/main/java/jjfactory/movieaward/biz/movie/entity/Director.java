@@ -51,11 +51,4 @@ public class Director extends MoviePeople {
                 .map(md-> md.getMovie().getTitle())
                 .collect(Collectors.toList());
     }
-
-    public List<String> getMovieNamesLimit3(){
-        return movieDirectors.stream()
-                .map(md-> md.getMovie().getTitle())
-                .limit(3)
-                .collect(Collectors.toList());
-    }
 }

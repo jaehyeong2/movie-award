@@ -30,4 +30,11 @@ public class AwardToMovie extends BaseEntity {
         this.movie = movie;
         this.award = award;
     }
+
+    public static AwardToMovie create(Movie movie,Award award){
+        return AwardToMovie.builder()
+                .movie(movie)
+                .award(award)
+                .build();
+    }
 }

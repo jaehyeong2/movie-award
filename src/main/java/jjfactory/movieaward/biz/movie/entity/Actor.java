@@ -40,17 +40,10 @@ public class Actor extends MoviePeople {
                 .country(dto.getCountry())
                 .build();
     }
-
+    
     public List<String> getFilmography(){
         return movieActors.stream()
                 .map(ma-> ma.getMovie().getTitle())
-                .collect(Collectors.toList());
-    }
-
-    public List<String> getFilmographyLimit3(){
-        return movieActors.stream()
-                .map(ma-> ma.getMovie().getTitle())
-                .limit(3L)
                 .collect(Collectors.toList());
     }
 

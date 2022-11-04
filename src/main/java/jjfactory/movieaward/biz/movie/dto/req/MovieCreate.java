@@ -27,6 +27,7 @@ public class MovieCreate {
     private MovieGenre genre;
 
     private List<Long> actorIds;
+    private List<Long> directorIds;
 
     @Builder
     public MovieCreate(String title, Country country, String releaseYear, int viewCount) {

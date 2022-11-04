@@ -30,4 +30,11 @@ public class AwardToActor extends BaseEntity {
         this.award = award;
         this.actor = actor;
     }
+
+    public static AwardToActor create(Actor actor,Award award){
+        return AwardToActor.builder()
+                .award(award)
+                .actor(actor)
+                .build();
+    }
 }

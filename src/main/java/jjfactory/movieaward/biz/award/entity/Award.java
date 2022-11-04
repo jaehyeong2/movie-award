@@ -36,7 +36,7 @@ public class Award extends BaseEntity {
     public static Award create(AwardCreate dto,Category category){
         return Award.builder()
                 .category(category)
-                .name(dto.getName())
+                .name(dto.getAwardName())
                 .awardYear(dto.getAwardYear())
                 .build();
     }

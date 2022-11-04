@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.Aware;
 
 import javax.persistence.*;
 
@@ -29,5 +30,12 @@ public class AwardToDirector extends BaseEntity {
     public AwardToDirector(Award award, Director director) {
         this.award = award;
         this.director = director;
+    }
+
+    public static AwardToDirector create(Director director,Award award){
+        return AwardToDirector.builder()
+                .award(award)
+                .director(director)
+                .build();
     }
 }

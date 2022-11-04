@@ -33,6 +33,8 @@ public class Movie extends BaseEntity {
     private Country country;
     private String releaseYear;
 
+    private int reviewCount;
+
     @OneToMany(mappedBy = "movie")
     private List<MovieActor> movieActors = new ArrayList<>();
 
@@ -40,12 +42,13 @@ public class Movie extends BaseEntity {
     private List<MovieDirector> movieDirectors = new ArrayList<>();
 
     @Builder
-    public Movie(Company company, String title, MovieGenre genre, int viewCount, Country country, String releaseYear) {
+    public Movie(Company company, String title, MovieGenre genre, int viewCount, Country country, String releaseYear, int reviewCount) {
         this.company = company;
         this.title = title;
         this.genre = genre;
         this.viewCount = viewCount;
         this.country = country;
+        this.reviewCount = reviewCount;
         this.releaseYear = releaseYear;
     }
 
@@ -56,6 +59,7 @@ public class Movie extends BaseEntity {
                 .viewCount(dto.getViewCount())
                 .title(dto.getTitle())
                 .releaseYear(dto.getReleaseYear())
+                .reviewCount(0)
                 .genre(dto.getGenre())
                 .build();
     }
@@ -74,5 +78,9 @@ public class Movie extends BaseEntity {
     public List<String> getDirectorNames(){
         return this.movieDirectors.stream().map(md->md.getDirector().getName())
                 .collect(Collectors.toList());
+    }
+
+    public void increaseReviewCount() {
+        this.reviewCount += 1;
     }
 }

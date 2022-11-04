@@ -28,7 +28,7 @@ class ActorTest {
         movieActor3.addToActor();
         movieActor4.addToActor();
 
-        List<String> list = lee.getFilmographyLimit3();
+        List<String> list = lee.getFilmography().subList(0,3);
         Assertions.assertThat(list.size()).isEqualTo(3);
     }
 }

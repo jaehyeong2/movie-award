@@ -50,6 +50,7 @@ public class ReviewService {
         Review review = Review.create(user, movie, dto);
 
         reviewRepository.save(review);
+        movie.increaseReviewCount();
         return review.getId();
     }
 

@@ -7,5 +7,5 @@ import javax.swing.text.html.Option;
 import java.util.Optional;
 
 public interface MovieRepository extends JpaRepository<Movie,Long> {
-    Optional<Movie> findByName(String name);
+    Optional<Movie> findByTitle(String name);
 }

@@ -2,6 +2,7 @@ package jjfactory.movieaward.biz.award.api;
 
 import jjfactory.movieaward.biz.award.dto.req.AwardCreate;
 import jjfactory.movieaward.biz.award.dto.req.AwardModify;
+import jjfactory.movieaward.biz.award.dto.req.CategoryCreate;
 import jjfactory.movieaward.biz.award.dto.res.AwardRes;
 import jjfactory.movieaward.biz.award.service.AwardService;
 import jjfactory.movieaward.global.dto.req.MyPageReq;
@@ -20,6 +21,11 @@ public class AwardAoi {
     public ApiPagingRes<AwardRes> findAll(@RequestParam(required = false, defaultValue = "1") int page,
                                           @RequestParam(required = false,defaultValue = "10") int size){
         return new ApiPagingRes<>(awardService.findAllAwards(new MyPageReq(page,size).of()));
+    }
+
+    @PostMapping("/category")
+    public ApiResponse<Long> createAwardCategory(@RequestBody CategoryCreate dto){
+        return new ApiResponse<>(awardService.createCategory(dto));
     }
 
     @PostMapping

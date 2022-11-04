@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -17,11 +18,10 @@ public class AwardCreate {
     @NotNull
     private WinnerType winnerType;
 
-    private String winnerName;
-    public AwardCreate(String awardName, String awardYear, WinnerType winnerType,String winnerName) {
+    private List<String> winnerNames;
+    public AwardCreate(String awardName, String awardYear, WinnerType winnerType) {
         this.awardName = awardName;
         this.awardYear = awardYear;
         this.winnerType = winnerType;
-        this.winnerName = winnerName;
     }
 }

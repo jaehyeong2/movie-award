@@ -9,7 +9,9 @@ import jjfactory.movieaward.biz.movie.dto.res.ActorRes;
 import jjfactory.movieaward.biz.movie.dto.res.MovieDetailRes;
 import jjfactory.movieaward.biz.movie.dto.res.MovieRes;
 import jjfactory.movieaward.biz.movie.entity.Actor;
+import jjfactory.movieaward.biz.movie.entity.Director;
 import jjfactory.movieaward.biz.movie.entity.Movie;
+import jjfactory.movieaward.biz.movie.entity.QDirector;
 import jjfactory.movieaward.global.entity.Country;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 import static jjfactory.movieaward.biz.movie.entity.QActor.*;
+import static jjfactory.movieaward.biz.movie.entity.QDirector.*;
 import static jjfactory.movieaward.biz.movie.entity.QMovie.*;
 
 @RequiredArgsConstructor
@@ -41,7 +44,7 @@ public class MovieQueryRepository {
      *
      * @return
      */
-    public PageImpl<MovieRes> findMoviesInMovieIds(Pageable pageable, String companyName, String title, Country country){
+    public PageImpl<MovieRes> findMoviesInMovieIds(Pageable pageable, String companyName, String title, String country){
         List<MovieRes> result = queryFactory.select(Projections.constructor(MovieRes.class, movie))
                 .from(movie)
                 .where(containsCompanyName(companyName),
@@ -96,14 +99,20 @@ public class MovieQueryRepository {
                 .fetch();
     }
 
+    public List<Director> findDirectorsInActorCodes(List<Long> directorCodes){
+        return queryFactory.selectFrom(director)
+                .where(director.peopleCode.in(directorCodes))
+                .fetch();
+    }
+
     private static BooleanExpression containsTitle(String title) {
         if(!StringUtils.hasText(title)) return null;
         return movie.title.contains(title);
     }
 
-    private static BooleanExpression eqCountry(Country country) {
+    private static BooleanExpression eqCountry(String country) {
         if(ObjectUtils.isEmpty(country)) return null;
-        return movie.country.eq(country);
+        return movie.country.stringValue().eq(country);
     }
 
     private static BooleanExpression containsCompanyName(String companyName) {

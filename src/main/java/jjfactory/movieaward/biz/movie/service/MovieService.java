@@ -4,10 +4,7 @@ import jjfactory.movieaward.biz.movie.dto.req.MovieCreate;
 import jjfactory.movieaward.biz.movie.dto.req.MovieModify;
 import jjfactory.movieaward.biz.movie.dto.res.MovieDetailRes;
 import jjfactory.movieaward.biz.movie.dto.res.MovieRes;
-import jjfactory.movieaward.biz.movie.entity.Actor;
-import jjfactory.movieaward.biz.movie.entity.Company;
-import jjfactory.movieaward.biz.movie.entity.Movie;
-import jjfactory.movieaward.biz.movie.entity.MovieActor;
+import jjfactory.movieaward.biz.movie.entity.*;
 import jjfactory.movieaward.biz.movie.repository.*;
 import jjfactory.movieaward.global.dto.res.PagingRes;
 import jjfactory.movieaward.global.entity.Country;
@@ -27,15 +24,11 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieQueryRepository movieQueryRepository;
     private final MovieActorRepository movieActorRepository;
+    private final MovieDirectorRepository movieDirectorRepository;
     private final CompanyRepository companyRepository;
 
     @Transactional(readOnly = true)
-    public PagingRes<MovieRes> findMovies(Pageable pageable, String companyName, String title, String countryFind){;
-        Country country = null;
-        if(StringUtils.hasText(countryFind)) {
-            country = Country.valueOf(countryFind);
-        }
-
+    public PagingRes<MovieRes> findMovies(Pageable pageable, String companyName, String title, String country){;
         return new PagingRes<>(movieQueryRepository.findMoviesInMovieIds(pageable,companyName,title, country));
     }
 
@@ -53,19 +46,26 @@ public class MovieService {
         Movie movie = Movie.create(company, dto);
         movieRepository.save(movie);
 
+        List<Director> directors = movieQueryRepository.findDirectorsInActorCodes(dto.getDirectorIds());
+        directors.forEach(d-> addDirectors(movie, d));
+
         if(dto.getActorIds()!=null){
             List<Actor> actors = movieQueryRepository.findActorsInActorCodes(dto.getActorIds());
-
             addActors(movie,actors);
         }
         return movie.getId();
+    }
+
+    private void addDirectors(Movie movie, Director d) {
+        MovieDirector movieDirector = MovieDirector.create(movie, d);
+        movieDirectorRepository.save(movieDirector);
+        movieDirector.addToMovie();
     }
 
     private void addActors(Movie movie,List<Actor> actors){
         actors.forEach(a->{
             MovieActor movieActor = MovieActor.create(movie, a);
             movieActorRepository.save(movieActor);
-//            movie.addMovieActor(movieActor);
             movieActor.addToMovie();
         });
     }

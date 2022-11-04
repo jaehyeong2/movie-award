@@ -22,23 +22,14 @@ import java.util.stream.Collectors;
 @Getter
 @Entity
 public class Actor extends MoviePeople {
-    private Gender gender;
-    private int age;
-    @Enumerated(EnumType.STRING)
-    private Country country;
-
     @OneToMany(mappedBy = "actor")
     private List<MovieActor> movieActors = new ArrayList<>();
 
     @OneToMany(mappedBy = "actor")
     private List<AwardToActor> awardToActors = new ArrayList<>();
-
     @Builder
-    public Actor(String name, Gender gender, int age, Country country) {
-        super(name);
-        this.gender = gender;
-        this.age = age;
-        this.country = country;
+    public Actor(String name, int age, Gender gender, Country country) {
+        super(name, age, gender,country);
     }
 
     public static Actor create(ActorCreate dto){

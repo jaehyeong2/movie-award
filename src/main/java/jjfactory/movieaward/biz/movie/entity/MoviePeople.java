@@ -1,6 +1,8 @@
 package jjfactory.movieaward.biz.movie.entity;
 
 import jjfactory.movieaward.global.entity.BaseEntity;
+import jjfactory.movieaward.global.entity.Country;
+import jjfactory.movieaward.global.entity.Gender;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,9 +23,17 @@ public class MoviePeople extends BaseEntity {
     private Long peopleCode;
 
     private String name;
+    private int age;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    @Enumerated(EnumType.STRING)
+    private Country country;
 
     @Builder(builderMethodName = "moviePeopleBuilder")
-    public MoviePeople(String name) {
+    public MoviePeople(String name, int age, Gender gender,Country country) {
         this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.country = country;
     }
 }

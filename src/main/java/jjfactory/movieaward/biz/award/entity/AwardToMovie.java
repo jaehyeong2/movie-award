@@ -37,4 +37,8 @@ public class AwardToMovie extends BaseEntity {
                 .award(award)
                 .build();
     }
+
+    public void addMovie(){
+        getMovie().getAwardToMovies().add(this);
+    }
 }

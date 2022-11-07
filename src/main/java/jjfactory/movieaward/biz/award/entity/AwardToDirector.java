@@ -38,4 +38,8 @@ public class AwardToDirector extends BaseEntity {
                 .director(director)
                 .build();
     }
+
+    public void addDirector(){
+        director.getAwardToDirectors().add(this);
+    }
 }

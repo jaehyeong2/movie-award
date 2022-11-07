@@ -37,4 +37,8 @@ public class AwardToActor extends BaseEntity {
                 .actor(actor)
                 .build();
     }
+
+    public void addActor(){
+        award.getAwardToActors().add(this);
+    }
 }

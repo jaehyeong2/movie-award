@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/award")
 @RequiredArgsConstructor
 @RestController
-public class AwardAoi {
+public class AwardApi {
     private final AwardService awardService;
 
     @GetMapping

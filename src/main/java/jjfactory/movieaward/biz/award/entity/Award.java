@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -26,11 +29,24 @@ public class Award extends BaseEntity {
 
     private String awardYear;
 
+    @OneToMany(mappedBy = "award")
+    private List<AwardToActor> awardToActors = new ArrayList<>();
+
+    @OneToMany(mappedBy = "award")
+    private List<AwardToMovie> awardToMovies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "award")
+    private List<AwardToDirector> awardToDirectors = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private WinnerType winnerType;
+
     @Builder
-    public Award(String name, Category category, String awardYear) {
+    public Award(String name, Category category, String awardYear,WinnerType winnerType) {
         this.name = name;
         this.category = category;
         this.awardYear = awardYear;
+        this.winnerType = winnerType;
     }
 
     public static Award create(AwardCreate dto,Category category){
@@ -38,12 +54,31 @@ public class Award extends BaseEntity {
                 .category(category)
                 .name(dto.getAwardName())
                 .awardYear(dto.getAwardYear())
+                .winnerType(dto.getWinnerType())
                 .build();
     }
 
     public void modify(AwardModify dto) {
         this.name = dto.getName();
         this.awardYear = dto.getAwardYear();
+    }
+
+    public List<String> getActorNames(){
+        return getAwardToActors().stream()
+                .map(aa-> aa.getActor().getName())
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getMovieNames(){
+        return getAwardToMovies().stream()
+                .map(am-> am.getMovie().getTitle())
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getDirectorNames(){
+        return getAwardToDirectors().stream()
+                .map(ad-> ad.getDirector().getName())
+                .collect(Collectors.toList());
     }
 
 }

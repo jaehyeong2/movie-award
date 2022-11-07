@@ -20,9 +20,7 @@ public class Award extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
     @JoinColumn(name = "category_id")
     @OneToOne(fetch = FetchType.LAZY)
     private Category category;
@@ -40,7 +38,6 @@ public class Award extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private WinnerType winnerType;
-
     @Builder
     public Award(String name, Category category, String awardYear,WinnerType winnerType) {
         this.name = name;
@@ -63,22 +60,28 @@ public class Award extends BaseEntity {
         this.awardYear = dto.getAwardYear();
     }
 
-    public List<String> getActorNames(){
-        return getAwardToActors().stream()
-                .map(aa-> aa.getActor().getName())
-                .collect(Collectors.toList());
-    }
+    public List<String> getWinnerNames(){
+        List<String> result = new ArrayList<>();
+        switch (winnerType){
+            case MOVIE:
+                result =  getAwardToMovies().stream()
+                        .map(am-> am.getMovie().getTitle())
+                        .collect(Collectors.toList());
+                break;
 
-    public List<String> getMovieNames(){
-        return getAwardToMovies().stream()
-                .map(am-> am.getMovie().getTitle())
-                .collect(Collectors.toList());
-    }
+            case ACTOR:
+                result =  getAwardToActors().stream()
+                        .map(aa-> aa.getActor().getName())
+                        .collect(Collectors.toList());
+                break;
 
-    public List<String> getDirectorNames(){
-        return getAwardToDirectors().stream()
-                .map(ad-> ad.getDirector().getName())
-                .collect(Collectors.toList());
+            case DIRECTOR:
+                result =  getAwardToDirectors().stream()
+                        .map(ad-> ad.getDirector().getName())
+                        .collect(Collectors.toList());
+                break;
+        }
+        return result;
     }
 
 }

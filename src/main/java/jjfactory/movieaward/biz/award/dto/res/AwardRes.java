@@ -1,5 +1,6 @@
 package jjfactory.movieaward.biz.award.dto.res;
 
+import jjfactory.movieaward.biz.award.entity.Award;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,14 +11,19 @@ import java.util.List;
 public class AwardRes {
     private String awardName;
     private List<String> winnerName;
-    private String awardYear;
     private String winYear;
-    private int winnerType;
+    private String awardCategory;
 
-    public AwardRes(String awardName, String awardYear, String winYear, int winnerType) {
+    public AwardRes(String awardName, String winYear, String awardCategory) {
         this.awardName = awardName;
-        this.awardYear = awardYear;
         this.winYear = winYear;
-        this.winnerType = winnerType;
+        this.awardCategory = awardCategory;
+    }
+
+    public AwardRes(Award award) {
+        this.awardName = award.getName();
+        this.winnerName = award.getWinnerNames();
+        this.winYear = award.getAwardYear();
+        this.awardCategory = award.getCategory().getName();
     }
 }

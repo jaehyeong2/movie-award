@@ -87,6 +87,12 @@ public class MovieQueryRepository {
         return new PageImpl<>(result,pageable,total);
     }
 
+    public List<Movie> findMovieByCompanyId(Long companyId) {
+        return queryFactory.selectFrom(movie)
+                .where(movie.company.id.eq(companyId))
+                .fetch();
+    }
+
     public List<Actor> findActorsInActorCodes(List<Long> actorCodes){
         return queryFactory.selectFrom(actor)
                 .where(actor._super.peopleCode.in(actorCodes))

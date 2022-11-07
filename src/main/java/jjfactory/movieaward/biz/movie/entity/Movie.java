@@ -1,5 +1,6 @@
 package jjfactory.movieaward.biz.movie.entity;
 
+import jjfactory.movieaward.biz.award.entity.AwardToMovie;
 import jjfactory.movieaward.biz.movie.dto.req.MovieCreate;
 import jjfactory.movieaward.biz.movie.dto.req.MovieModify;
 import jjfactory.movieaward.global.entity.BaseEntity;
@@ -38,8 +39,11 @@ public class Movie extends BaseEntity {
     @OneToMany(mappedBy = "movie")
     private List<MovieActor> movieActors = new ArrayList<>();
 
-    @OneToMany(mappedBy = "director")
+    @OneToMany(mappedBy = "movie")
     private List<MovieDirector> movieDirectors = new ArrayList<>();
+
+    @OneToMany(mappedBy = "movie")
+    private List<AwardToMovie> awardToMovies = new ArrayList<>();
 
     @Builder
     public Movie(Company company, String title, MovieGenre genre, int viewCount, Country country, String releaseYear, int reviewCount) {

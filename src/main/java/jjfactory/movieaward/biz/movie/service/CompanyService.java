@@ -5,11 +5,14 @@ import jjfactory.movieaward.biz.movie.dto.req.CompanyModify;
 import jjfactory.movieaward.biz.movie.dto.res.CompanyDetailRes;
 import jjfactory.movieaward.biz.movie.dto.res.CompanyRes;
 import jjfactory.movieaward.biz.movie.entity.Company;
+import jjfactory.movieaward.biz.movie.entity.Movie;
 import jjfactory.movieaward.biz.movie.repository.CompanyRepository;
+import jjfactory.movieaward.biz.movie.repository.MovieQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class CompanyService {
     private final CompanyRepository companyRepository;
+    private final  MovieQueryRepository movieQueryRepository;
 
     @Transactional(readOnly = true)
     public List<CompanyRes> findAll(){
@@ -29,6 +33,9 @@ public class CompanyService {
     @Transactional(readOnly = true)
     public CompanyDetailRes findOne(Long companyId){
         Company company = getCompany(companyId);
+
+        List<Movie> movies = movieQueryRepository.findMovieByCompanyId(company.getId());
+
         return new CompanyDetailRes(company);
     }
 

@@ -44,15 +44,11 @@ public class AwardService {
         Award award = Award.create(dto, category);
         awardRepository.save(award);
 
-
-        //TODO 수상자 이름 안받았을 경우 대비해서 수정 로직에 수상자 추가기능 필요
         if(dto.getWinnerNames()!=null && dto.getWinnerNames().size() > 0){
-            if (dto.getWinnerType().equals(WinnerType.MOVIE)){
-                createAwardToMovie(dto, award);
-            }else if(dto.getWinnerType().equals(WinnerType.DIRECTOR)){
-                createAwardToDirector(dto, award);
-            }else if(dto.getWinnerType().equals(WinnerType.ACTOR)){
-                createAwardToActor(dto, award);
+            switch (dto.getWinnerType()){
+                case MOVIE: createAwardToMovie(dto,award); break;
+                case ACTOR: createAwardToActor(dto,award); break;
+                case DIRECTOR: createAwardToDirector(dto,award); break;
             }
         }
         return award.getId();
@@ -63,6 +59,7 @@ public class AwardService {
         actors.forEach(actor-> {
             AwardToActor awardToActor = AwardToActor.create(actor, award);
             awardActorRepository.save(awardToActor);
+            awardToActor.addActor();
         });
     }
 
@@ -71,6 +68,7 @@ public class AwardService {
         directors.forEach(director -> {
             AwardToDirector awardToDirector = AwardToDirector.create(director, award);
             awardDirectorRepository.save(awardToDirector);
+            awardToDirector.addDirector();
         });
     }
 
@@ -79,6 +77,7 @@ public class AwardService {
         movies.forEach(movie -> {
             AwardToMovie awardToMovie = AwardToMovie.create(movie, award);
             awardMovieRepository.save(awardToMovie);
+            awardToMovie.addMovie();
         });
     }
 

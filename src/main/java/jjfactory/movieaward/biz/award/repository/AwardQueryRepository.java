@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static jjfactory.movieaward.biz.award.entity.QAward.*;
 import static jjfactory.movieaward.biz.movie.entity.QActor.*;
@@ -40,18 +41,25 @@ public class AwardQueryRepository {
     }
 
     public List<Actor> findActorsInNames(List<String> names){
-        return queryFactory.selectFrom(actor)
+        List<Actor> result = queryFactory.selectFrom(actor)
                 .where(actor.name.in(names)).fetch();
+
+        if(result == null || result.size()==0) throw new NoSuchElementException();
+        return result;
     }
 
     public List<Movie> findMoviesInNames(List<String> names){
-        return queryFactory.selectFrom(movie)
+        List<Movie> result = queryFactory.selectFrom(movie)
                 .where(movie.title.in(names)).fetch();
+        if(result == null || result.size() == 0) throw new NoSuchElementException();
+        return result;
     }
 
     public List<Director> findDirectorsInNames(List<String> names){
-        return queryFactory.selectFrom(director)
+        List<Director> result = queryFactory.selectFrom(director)
                 .where(director.name.in(names)).fetch();
+        if(result == null || result.size() == 0) throw new NoSuchElementException();
+        return result;
     }
 
 }

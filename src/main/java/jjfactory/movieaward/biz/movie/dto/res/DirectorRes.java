@@ -23,7 +23,7 @@ public class DirectorRes {
 
     public DirectorRes(Director director) {
         this.name = director.getName();
-        this.movieNames = director.getMovieNames().subList(0,3);
+        this.movieNames = (director.getMovieNames().size()>3) ? director.getMovieNames().subList(0,3) : director.getMovieNames();
         this.gender = director.getGender().toString();
         this.country = director.getCountry().toString();
     }

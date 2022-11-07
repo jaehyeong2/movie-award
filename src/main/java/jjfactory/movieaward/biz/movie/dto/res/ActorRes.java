@@ -25,6 +25,6 @@ public class ActorRes {
         this.name = actor.getName();
         this.country = actor.getCountry();
         this.age = actor.getAge();
-        this.movieNames = actor.getFilmography().subList(0,3);
+        this.movieNames = (actor.getFilmography().size() > 3 ) ? actor.getFilmography().subList(0,3) : actor.getFilmography();
     }
 }

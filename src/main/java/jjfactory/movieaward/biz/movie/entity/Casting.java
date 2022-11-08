@@ -41,6 +41,10 @@ public class Casting extends BaseEntity {
                 .build();
     }
 
+    public String getActorName() {
+        return this.actor.getName();
+    }
+
     public void addToMovie(){
         movie.getCastings().add(this);
     }

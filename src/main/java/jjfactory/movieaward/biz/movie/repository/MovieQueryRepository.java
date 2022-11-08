@@ -36,13 +36,13 @@ public class MovieQueryRepository {
                 .where(movie.id.eq(movieId))
                 .fetchOne();
 
-        List<MovieDetailRes.CastingInfo> castingInfoList = queryFactory.select(Projections.constructor(MovieDetailRes.CastingInfo.class, casting))
-                .from(casting)
-                .where(movie.id.eq(movieId)).fetch();
-
-        if(res != null && castingInfoList != null && castingInfoList.size()>0) {
-            res.addCastingInfo(castingInfoList);
-        }
+//        List<MovieDetailRes.CastingInfo> castingInfoList = queryFactory.select(Projections.constructor(MovieDetailRes.CastingInfo.class, casting))
+//                .from(casting)
+//                .where(movie.id.eq(movieId)).fetch();
+//
+//        if(res != null && castingInfoList != null && castingInfoList.size()>0) {
+//            res.addCastingInfo(castingInfoList);
+//        }
 
         return res;
     }

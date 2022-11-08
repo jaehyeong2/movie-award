@@ -60,7 +60,9 @@ public class MovieDetailRes {
         this.releaseYear = movie.getReleaseYear();
         this.companyName = movie.getCompany().getName();
         this.genres = movie.getGenres();
-//        this.castingInfoList =
+        this.castingInfoList = movie.getCastings().stream()
+                .map(i -> new CastingInfo(i.getActorName(), i.getRoleName()))
+                .collect(Collectors.toList());
         this.directorNames = movie.getDirectorNames();
     }
 }

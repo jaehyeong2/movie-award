@@ -26,7 +26,7 @@ public class MovieCreate {
     private int viewCount;
     private List<MovieGenre> genres;
 
-    private List<Long> actorIds;
+    private List<ActorIdAndCastName> actorIdAndCastNames;
     private List<Long> directorIds;
 
     @Builder
@@ -35,5 +35,12 @@ public class MovieCreate {
         this.country = country;
         this.releaseYear = releaseYear;
         this.viewCount = viewCount;
+    }
+
+    @NoArgsConstructor
+    @Getter
+    public static class ActorIdAndCastName{
+        private Long actorId;
+        private String castName;
     }
 }

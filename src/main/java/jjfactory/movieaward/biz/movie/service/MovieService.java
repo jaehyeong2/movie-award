@@ -19,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class MovieService {
+    private final ActorRepository actorRepository;
     private final MovieRepository movieRepository;
     private final MovieQueryRepository movieQueryRepository;
     private final CastingRepository castingRepository;
@@ -48,9 +49,14 @@ public class MovieService {
         List<Director> directors = movieQueryRepository.findDirectorsInActorCodes(dto.getDirectorIds());
         directors.forEach(d-> addDirectors(movie, d));
 
-        if(dto.getActorIds()!=null){
-            List<Actor> actors = movieQueryRepository.findActorsInActorCodes(dto.getActorIds());
-            addActors(movie,actors);
+        if(dto.getActorIdAndCastNames()!=null){
+//            List<Actor> actors = movieQueryRepository.findActorsInActorCodes(dto.getActorIds());
+//            addActors(movie,actors);
+
+            dto.getActorIdAndCastNames().forEach(e->{
+                Actor actor = DbUtils.getOrThrow(actorRepository, e.getActorId());
+                addActors(movie,actor,e.getCastName());
+            });
         }
         return movie.getId();
     }
@@ -61,12 +67,10 @@ public class MovieService {
         movieDirector.addToMovie();
     }
 
-    private void addActors(Movie movie,List<Actor> actors){
-        actors.forEach(a->{
-            Casting casting = Casting.create(movie, a);
+    private void addActors(Movie movie,Actor actor,String castName){
+            Casting casting = Casting.create(movie, actor,castName);
             castingRepository.save(casting);
             casting.addToMovie();
-        });
     }
 
     public String delete(Long movieId){
@@ -78,10 +82,10 @@ public class MovieService {
         Movie movie = DbUtils.getOrThrow(movieRepository, dto.getMovieId());
         movie.modify(dto);
 
-        if (dto.getActorIds()!= null){
-            List<Actor> actors = movieQueryRepository.findActorsInActorCodes(dto.getActorIds());
-            addActors(movie,actors);
-        }
+//        if (dto.getActorIds()!= null){
+//            List<Actor> actors = movieQueryRepository.findActorsInActorCodes(dto.getActorIds());
+//            addActors(movie,actors);
+//        }
         return "ok";
     }
 }

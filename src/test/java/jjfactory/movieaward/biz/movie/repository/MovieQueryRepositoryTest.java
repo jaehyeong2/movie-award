@@ -60,14 +60,14 @@ class MovieQueryRepositoryTest {
         em.persist(lee);
         em.persist(kim);
 
-        Casting casting1 = Casting.create(find, kim);
-        Casting casting2 = Casting.create(find, lee);
+//        Casting casting1 = Casting.create(find, kim);
+//        Casting casting2 = Casting.create(find, lee);
 
 //        find.addMovieActor(movieActor1);
 //        find.addMovieActor(movieActor2);
 
-        casting1.addToMovie();
-        casting2.addToMovie();
+//        casting1.addToMovie();
+//        casting2.addToMovie();
 
         Director directorA = Director.builder().name("directorA").build();
         MovieDirector movieDirector = MovieDirector.create(find, directorA);

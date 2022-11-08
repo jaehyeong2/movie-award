@@ -8,10 +8,7 @@ import jjfactory.movieaward.biz.movie.dto.res.ActorDetailRes;
 import jjfactory.movieaward.biz.movie.dto.res.ActorRes;
 import jjfactory.movieaward.biz.movie.dto.res.MovieDetailRes;
 import jjfactory.movieaward.biz.movie.dto.res.MovieRes;
-import jjfactory.movieaward.biz.movie.entity.Actor;
-import jjfactory.movieaward.biz.movie.entity.Director;
-import jjfactory.movieaward.biz.movie.entity.Movie;
-import jjfactory.movieaward.biz.movie.entity.QDirector;
+import jjfactory.movieaward.biz.movie.entity.*;
 import jjfactory.movieaward.global.entity.Country;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +21,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 import static jjfactory.movieaward.biz.movie.entity.QActor.*;
+import static jjfactory.movieaward.biz.movie.entity.QCasting.*;
 import static jjfactory.movieaward.biz.movie.entity.QDirector.*;
 import static jjfactory.movieaward.biz.movie.entity.QMovie.*;
 
@@ -33,7 +31,30 @@ public class MovieQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     public MovieDetailRes findMovieDetailInfo(Long movieId){
-        return queryFactory.select(Projections.constructor(MovieDetailRes.class,movie))
+        MovieDetailRes res = queryFactory.select(Projections.constructor(MovieDetailRes.class, movie))
+                .from(movie)
+                .where(movie.id.eq(movieId))
+                .fetchOne();
+
+        List<MovieDetailRes.CastingInfo> castingInfoList = queryFactory.select(Projections.constructor(MovieDetailRes.CastingInfo.class, casting))
+                .from(casting)
+                .where(movie.id.eq(movieId)).fetch();
+
+        if(res != null && castingInfoList != null && castingInfoList.size()>0) {
+            res.addCastingInfo(castingInfoList);
+        }
+
+        return res;
+    }
+
+    public MovieDetailRes findMovieDetailInfoV2(Long movieId){
+        return queryFactory.select(Projections
+                        .fields(MovieDetailRes.class,
+                                movie.id.as("id"),
+                                movie.title.as("name"),
+                                movie.releaseYear.as("releaseYear"),
+                                movie.company.name.as("companyName")
+                                ))
                 .from(movie)
                 .where(movie.id.eq(movieId))
                 .fetchOne();

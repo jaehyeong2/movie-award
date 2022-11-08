@@ -17,23 +17,23 @@ public class MovieDetailRes {
     private String name;
     private String releaseYear;
     private String companyName;
-    private String genre;
+    private List<String> genres;
     private Long movieSeq;
     private List<String> actorNames;
     private List<String> directorNames;
 
-    public MovieDetailRes(String name, String releaseYear, String companyName, String genre) {
+    public MovieDetailRes(String name, String releaseYear, String companyName, List<String> genres) {
         this.name = name;
         this.releaseYear = releaseYear;
         this.companyName = companyName;
-        this.genre = genre;
+        this.genres = genres;
     }
 
     public MovieDetailRes(Movie movie) {
         this.name = movie.getTitle();
         this.releaseYear = movie.getReleaseYear();
         this.companyName = movie.getCompany().getName();
-        this.genre = movie.getGenre().toString();
+        this.genres = movie.getGenres().stream().map(Enum::toString).collect(Collectors.toList());
         this.movieSeq = movie.getId();
         this.actorNames = movie.getActorNames();
         this.directorNames = movie.getDirectorNames();

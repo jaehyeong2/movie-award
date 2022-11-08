@@ -44,6 +44,7 @@ public class MovieService {
         Company company = DbUtils.getOrThrow(companyRepository, dto.getCompanyId());
 
         Movie movie = Movie.create(company, dto);
+        movie.addMovieGenres(dto.getGenres());
         movieRepository.save(movie);
 
         List<Director> directors = movieQueryRepository.findDirectorsInActorCodes(dto.getDirectorIds());

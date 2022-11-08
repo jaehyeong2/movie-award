@@ -24,7 +24,7 @@ public class MovieCreate {
     private String releaseYear;
     @NotNull
     private int viewCount;
-    private MovieGenre genre;
+    private List<MovieGenre> genres;
 
     private List<Long> actorIds;
     private List<Long> directorIds;

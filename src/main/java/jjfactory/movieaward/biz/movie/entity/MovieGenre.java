@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public enum MovieGenre {
-    HORROR,ROMANCE
+    HORROR,ROMANCE,COMIC
 }

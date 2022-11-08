@@ -47,7 +47,7 @@ class MovieQueryRepositoryTest {
             Company companyTmp = companyA;
 
             Movie find = Movie.builder()
-                    .genre(MovieGenre.HORROR)
+//                    .genre(MovieGenre.HORROR)
                     .country(Country.JAPAN)
                     .company(companyTmp)
                     .title("영화에염~")
@@ -77,7 +77,7 @@ class MovieQueryRepositoryTest {
         movieDirector.addToMovie();
         MovieDetailRes result = queryFactory.select(Projections.constructor(MovieDetailRes.class, movie))
                 .from(movie)
-                .where(movie.genre.eq(MovieGenre.HORROR))
+//                .where(movie.genre.eq(MovieGenre.HORROR))
                 .fetchOne();
 
         System.out.println("result = " + result);
@@ -96,7 +96,7 @@ class MovieQueryRepositoryTest {
             if (i %2 == 0) companyTmp = companyB;
 
             Movie movie = Movie.builder()
-                    .genre(MovieGenre.HORROR)
+//                    .genre(MovieGenre.HORROR)
                     .country(Country.JAPAN)
                     .title("바람" + i)
                     .company(companyTmp)

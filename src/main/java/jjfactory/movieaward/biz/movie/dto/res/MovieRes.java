@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -13,9 +14,9 @@ public class MovieRes {
     private String name;
     private String releaseYear;
     private String companyName;
-    private String genre;
+    private List<String> genre;
 
-    public MovieRes(String name, String releaseYear, String companyName,String genre) {
+    public MovieRes(String name, String releaseYear, String companyName,List<String> genre) {
         this.name = name;
         this.releaseYear = releaseYear;
         this.companyName = companyName;
@@ -26,6 +27,6 @@ public class MovieRes {
         this.name = movie.getTitle();
         this.releaseYear = movie.getReleaseYear();
         this.companyName = movie.getCompany().getName();
-        this.genre = movie.getGenre().toString();
+        this.genre = movie.getGenres().stream().map(Enum::toString).collect(Collectors.toList());
     }
 }

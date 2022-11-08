@@ -27,8 +27,11 @@ public class Movie extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
     private String title;
+
+    @CollectionTable(name = "movie_genre", joinColumns = @JoinColumn(name = "movie_id"))
+    @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
-    private MovieGenre genre;
+    private List<MovieGenre> genres = new ArrayList<>();
     private int viewCount;
     @Enumerated(EnumType.STRING)
     private Country country;
@@ -46,10 +49,9 @@ public class Movie extends BaseEntity {
     private List<AwardToMovie> awardToMovies = new ArrayList<>();
 
     @Builder
-    public Movie(Company company, String title, MovieGenre genre, int viewCount, Country country, String releaseYear, int reviewCount) {
+    public Movie(Company company, String title, int viewCount, Country country, String releaseYear, int reviewCount) {
         this.company = company;
         this.title = title;
-        this.genre = genre;
         this.viewCount = viewCount;
         this.country = country;
         this.reviewCount = reviewCount;
@@ -64,7 +66,6 @@ public class Movie extends BaseEntity {
                 .title(dto.getTitle())
                 .releaseYear(dto.getReleaseYear())
                 .reviewCount(0)
-                .genre(dto.getGenre())
                 .build();
     }
 
@@ -86,5 +87,9 @@ public class Movie extends BaseEntity {
 
     public void increaseReviewCount() {
         this.reviewCount += 1;
+    }
+
+    public void addMovieGenres(List<MovieGenre> genres) {
+        this.genres.addAll(genres);
     }
 }

@@ -1,8 +1,6 @@
 package jjfactory.movieaward.biz.movie.dto.res;
 
-import jjfactory.movieaward.biz.movie.entity.Actor;
 import jjfactory.movieaward.biz.movie.entity.Movie;
-import jjfactory.movieaward.biz.movie.entity.MovieActor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

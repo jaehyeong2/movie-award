@@ -7,13 +7,11 @@ import jjfactory.movieaward.biz.movie.dto.res.MovieRes;
 import jjfactory.movieaward.biz.movie.entity.*;
 import jjfactory.movieaward.biz.movie.repository.*;
 import jjfactory.movieaward.global.dto.res.PagingRes;
-import jjfactory.movieaward.global.entity.Country;
 import jjfactory.movieaward.global.util.DbUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -23,7 +21,7 @@ import java.util.List;
 public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieQueryRepository movieQueryRepository;
-    private final MovieActorRepository movieActorRepository;
+    private final CastingRepository castingRepository;
     private final MovieDirectorRepository movieDirectorRepository;
     private final CompanyRepository companyRepository;
 
@@ -65,9 +63,9 @@ public class MovieService {
 
     private void addActors(Movie movie,List<Actor> actors){
         actors.forEach(a->{
-            MovieActor movieActor = MovieActor.create(movie, a);
-            movieActorRepository.save(movieActor);
-            movieActor.addToMovie();
+            Casting casting = Casting.create(movie, a);
+            castingRepository.save(casting);
+            casting.addToMovie();
         });
     }
 

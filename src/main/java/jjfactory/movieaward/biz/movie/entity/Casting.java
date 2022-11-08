@@ -1,5 +1,6 @@
 package jjfactory.movieaward.biz.movie.entity;
 
+import jjfactory.movieaward.biz.movie.dto.req.CastingNameReq;
 import jjfactory.movieaward.global.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class MovieActor extends BaseEntity {
+public class Casting extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,24 +25,28 @@ public class MovieActor extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Actor actor;
 
+    private String roleName;
+
     @Builder
-    public MovieActor(Movie movie, Actor actor) {
+    public Casting(Movie movie, Actor actor,String name) {
         this.movie = movie;
         this.actor = actor;
+        this.roleName = name;
     }
 
-    public static MovieActor create(Movie movie,Actor actor){
-        return MovieActor.builder()
+    public static Casting create(Movie movie, Actor actor,String name){
+        return Casting.builder()
                 .movie(movie)
                 .actor(actor)
                 .build();
     }
 
     public void addToMovie(){
-        movie.getMovieActors().add(this);
+        movie.getCastings().add(this);
     }
 
     public void addToActor(){
-        actor.getMovieActors().add(this);
+        actor.getCastings().add(this);
     }
+
 }

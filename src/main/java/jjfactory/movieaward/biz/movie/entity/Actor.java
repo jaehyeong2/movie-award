@@ -2,15 +2,12 @@ package jjfactory.movieaward.biz.movie.entity;
 
 import jjfactory.movieaward.biz.award.entity.AwardToActor;
 import jjfactory.movieaward.biz.movie.dto.req.ActorCreate;
-import jjfactory.movieaward.global.entity.BaseEntity;
 import jjfactory.movieaward.global.entity.Country;
 import jjfactory.movieaward.global.entity.Gender;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,7 +20,7 @@ import java.util.stream.Collectors;
 @Entity
 public class Actor extends MoviePeople {
     @OneToMany(mappedBy = "actor")
-    private List<MovieActor> movieActors = new ArrayList<>();
+    private List<Casting> castings = new ArrayList<>();
 
     @OneToMany(mappedBy = "actor")
     private List<AwardToActor> awardToActors = new ArrayList<>();
@@ -42,7 +39,7 @@ public class Actor extends MoviePeople {
     }
     
     public List<String> getFilmography(){
-        return movieActors.stream()
+        return castings.stream()
                 .map(ma-> ma.getMovie().getTitle())
                 .collect(Collectors.toList());
     }

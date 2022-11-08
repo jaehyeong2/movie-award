@@ -36,11 +36,10 @@ public class Movie extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Country country;
     private String releaseYear;
-
     private int reviewCount;
 
     @OneToMany(mappedBy = "movie")
-    private List<MovieActor> movieActors = new ArrayList<>();
+    private List<Casting> castings = new ArrayList<>();
 
     @OneToMany(mappedBy = "movie")
     private List<MovieDirector> movieDirectors = new ArrayList<>();
@@ -76,7 +75,7 @@ public class Movie extends BaseEntity {
     }
 
     public List<String> getActorNames(){
-        return this.movieActors.stream().map(ma->ma.getActor().getName())
+        return this.castings.stream().map(ma->ma.getActor().getName())
                 .collect(Collectors.toList());
     }
 

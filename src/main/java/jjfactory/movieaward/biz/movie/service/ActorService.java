@@ -4,19 +4,22 @@ import jjfactory.movieaward.biz.movie.dto.req.ActorCreate;
 import jjfactory.movieaward.biz.movie.dto.res.ActorDetailRes;
 import jjfactory.movieaward.biz.movie.dto.res.ActorRes;
 import jjfactory.movieaward.biz.movie.entity.Actor;
+import jjfactory.movieaward.biz.movie.entity.Casting;
 import jjfactory.movieaward.biz.movie.entity.Movie;
-import jjfactory.movieaward.biz.movie.entity.MovieActor;
 import jjfactory.movieaward.biz.movie.repository.ActorRepository;
-import jjfactory.movieaward.biz.movie.repository.MovieActorRepository;
+import jjfactory.movieaward.biz.movie.repository.CastingRepository;
 import jjfactory.movieaward.biz.movie.repository.MovieQueryRepository;
-import jjfactory.movieaward.global.dto.res.ApiResponse;
+import jjfactory.movieaward.biz.movie.repository.MovieRepository;
 import jjfactory.movieaward.global.dto.res.PagingRes;
+import jjfactory.movieaward.global.util.DbUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Transactional
@@ -24,11 +27,12 @@ import java.util.List;
 public class ActorService {
     private final ActorRepository actorRepository;
     private final MovieQueryRepository movieQueryRepository;
-    private final MovieActorRepository movieActorRepository;
+    private final MovieRepository movieRepository;
+    private final CastingRepository castingRepository;
 
     @Transactional(readOnly = true)
-    public ApiResponse<ActorDetailRes> findActorDetail(Long actorCode){
-        return new ApiResponse<>(movieQueryRepository.findActorDetails(actorCode));
+    public ActorDetailRes findActorDetail(Long actorCode){
+        return movieQueryRepository.findActorDetails(actorCode);
     }
 
     @Transactional(readOnly = true)
@@ -36,21 +40,19 @@ public class ActorService {
         return new PagingRes<>(movieQueryRepository.findActors(pageable));
     }
 
-    /**
-     * 하나 이상의 영화를 찍은 사람만 배우인걸로 치는걸로 함.
-     */
-
     public Long save(ActorCreate dto){
         Actor actor = Actor.create(dto);
         actorRepository.save(actor);
 
-        List<Movie> movies = movieQueryRepository.findMoviesInMovieIds(dto.getMovieIds());
-        movies.forEach(m-> {
-            MovieActor movieActor = MovieActor.create(m, actor);
-            movieActorRepository.save(movieActor);
-            movieActor.addToActor();
-        });
+        if(dto.getMovieIdAndCastNames() != null){
+            dto.getMovieIdAndCastNames().forEach(e->{
+                Movie movie = DbUtils.getOrThrow(movieRepository, e.getMovieId());
 
+                Casting casting = Casting.create(movie, actor,e.getCastName());
+                castingRepository.save(casting);
+                casting.addToActor();
+            });
+        }
         return actor.getPeopleCode();
     }
 

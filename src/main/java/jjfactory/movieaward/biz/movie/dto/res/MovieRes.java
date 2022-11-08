@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 public class MovieRes {
+    private Long id;
     private String name;
     private String releaseYear;
     private String companyName;
@@ -24,6 +25,7 @@ public class MovieRes {
     }
 
     public MovieRes(Movie movie) {
+        this.id = movie.getId();
         this.name = movie.getTitle();
         this.releaseYear = movie.getReleaseYear();
         this.companyName = movie.getCompany().getName();

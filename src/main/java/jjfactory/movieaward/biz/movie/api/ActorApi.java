@@ -19,7 +19,7 @@ public class ActorApi {
     private final ActorService actorService;
 
     @GetMapping("/{actorId}")
-    public ApiResponse<ApiResponse<ActorDetailRes>> find(@PathVariable Long actorId){
+    public ApiResponse<ActorDetailRes> find(@PathVariable Long actorId){
         return new ApiResponse<>(actorService.findActorDetail(actorId));
     }
 

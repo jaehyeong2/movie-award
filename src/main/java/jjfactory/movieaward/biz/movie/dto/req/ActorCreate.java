@@ -12,8 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 public class ActorCreate {
-    @NotNull
-    private List<Long> movieIds;
+    private List<MovieIdAndCastNames> movieIdAndCastNames;
     @NotEmpty
     private String name;
     @NotNull
@@ -28,5 +27,12 @@ public class ActorCreate {
         this.age = age;
         this.gender = gender;
         this.country = country;
+    }
+
+    @NoArgsConstructor
+    @Getter
+    public static class MovieIdAndCastNames{
+        private Long movieId;
+        private String castName;
     }
 }

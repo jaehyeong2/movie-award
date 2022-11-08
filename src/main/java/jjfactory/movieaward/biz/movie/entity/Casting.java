@@ -1,6 +1,5 @@
 package jjfactory.movieaward.biz.movie.entity;
 
-import jjfactory.movieaward.biz.movie.dto.req.CastingNameReq;
 import jjfactory.movieaward.global.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -38,6 +37,7 @@ public class Casting extends BaseEntity {
         return Casting.builder()
                 .movie(movie)
                 .actor(actor)
+                .name(name)
                 .build();
     }
 

@@ -11,11 +11,14 @@ import jjfactory.movieaward.biz.review.repository.ReviewQueryRepository;
 import jjfactory.movieaward.biz.review.repository.ReviewRepository;
 import jjfactory.movieaward.biz.review.repository.UserRepository;
 import jjfactory.movieaward.global.dto.res.PagingRes;
+import jjfactory.movieaward.global.exception.DuplicateReviewCreateException;
 import jjfactory.movieaward.global.util.DbUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +49,10 @@ public class ReviewService {
     public Long save(ReviewCreate dto){
         User user = DbUtils.getOrThrow(userRepository,dto.getUserId());
         Movie movie = DbUtils.getOrThrow(movieRepository,dto.getMovieId());
+
+        if(reviewRepository.findReviewByMovieIdAndReviewerId(movie.getId(),user.getId()).isPresent()){
+            throw new DuplicateReviewCreateException();
+        }
 
         Review review = Review.create(user, movie, dto);
 

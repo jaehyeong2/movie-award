@@ -13,6 +13,11 @@ import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                columnNames = {"reviewer_id","movie_id"}
+        )
+})
 @Entity
 public class Review extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

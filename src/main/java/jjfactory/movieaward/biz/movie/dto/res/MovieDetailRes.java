@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 public class MovieDetailRes {
+    private Long movieSeq;
     private String name;
     private String releaseYear;
     private String companyName;
     private List<MovieGenre> genres;
-    private Long movieSeq;
     private List<CastingInfo> castingInfoList = new ArrayList<>();
     private List<String> directorNames;
 

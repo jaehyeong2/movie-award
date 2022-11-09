@@ -9,6 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 public class DirectorDetailRes {
+    private Long id;
     private String name;
     private int age;
     private List<String> movieNames;
@@ -23,6 +24,7 @@ public class DirectorDetailRes {
     }
 
     public DirectorDetailRes(Director director) {
+        this.id = director.getPeopleCode();
         this.name = director.getName();
         this.age = director.getAge();
         this.movieNames = director.getMovieNames();

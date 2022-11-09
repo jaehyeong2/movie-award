@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @Getter
 public class ReviewRes {
+    private Long id;
     private String username;
     private String content;
     private int star;
@@ -22,6 +23,7 @@ public class ReviewRes {
     }
 
     public ReviewRes(Review review) {
+        this.id = review.getId();
         this.username = review.getReviewer().getUsername();
         this.content = review.getContent();
         this.star = review.getStar();

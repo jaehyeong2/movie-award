@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 public class DirectorRes {
+    private Long id;
     private String name;
     private List<String> movieNames;
     private String gender;
@@ -22,6 +23,7 @@ public class DirectorRes {
     }
 
     public DirectorRes(Director director) {
+        this.id = director.getPeopleCode();
         this.name = director.getName();
         this.movieNames = (director.getMovieNames().size()>3) ? director.getMovieNames().subList(0,3) : director.getMovieNames();
         this.gender = director.getGender().toString();

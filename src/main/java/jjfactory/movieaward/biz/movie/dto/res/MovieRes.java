@@ -2,6 +2,7 @@ package jjfactory.movieaward.biz.movie.dto.res;
 
 import jjfactory.movieaward.biz.movie.entity.Movie;
 import jjfactory.movieaward.biz.movie.entity.MovieGenre;
+import jjfactory.movieaward.global.entity.Country;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ public class MovieRes {
     private String name;
     private String releaseYear;
     private String companyName;
+    private Country country;
     private List<MovieGenre> genres;
 
     public MovieRes(String name, String releaseYear, String companyName,List<MovieGenre> genres) {
@@ -28,6 +30,7 @@ public class MovieRes {
         this.name = movie.getTitle();
         this.releaseYear = movie.getReleaseYear();
         this.companyName = movie.getCompany().getName();
+        this.country = movie.getCountry();
         this.genres = movie.getGenres();
     }
 }

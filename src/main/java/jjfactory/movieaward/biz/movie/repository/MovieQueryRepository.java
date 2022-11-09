@@ -31,20 +31,10 @@ public class MovieQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     public MovieDetailRes findMovieDetailInfo(Long movieId){
-        MovieDetailRes res = queryFactory.select(Projections.constructor(MovieDetailRes.class, movie))
+        return queryFactory.select(Projections.constructor(MovieDetailRes.class, movie))
                 .from(movie)
                 .where(movie.id.eq(movieId))
                 .fetchOne();
-
-//        List<MovieDetailRes.CastingInfo> castingInfoList = queryFactory.select(Projections.constructor(MovieDetailRes.CastingInfo.class, casting))
-//                .from(casting)
-//                .where(movie.id.eq(movieId)).fetch();
-//
-//        if(res != null && castingInfoList != null && castingInfoList.size()>0) {
-//            res.addCastingInfo(castingInfoList);
-//        }
-
-        return res;
     }
 
     public MovieDetailRes findMovieDetailInfoV2(Long movieId){

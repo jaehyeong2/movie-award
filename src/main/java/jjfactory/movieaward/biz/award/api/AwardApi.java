@@ -18,8 +18,8 @@ public class AwardApi {
     private final AwardService awardService;
 
     @GetMapping
-    public ApiPagingRes<AwardRes> findAll(@RequestParam(required = false, defaultValue = "1") int page,
-                                          @RequestParam(required = false,defaultValue = "10") int size){
+    public ApiPagingRes<AwardRes> findAll(@RequestParam(defaultValue = "1") int page,
+                                          @RequestParam(defaultValue = "10") int size){
         return new ApiPagingRes<>(awardService.findAllAwards(new MyPageReq(page,size).of()));
     }
 

@@ -24,8 +24,8 @@ public class ActorApi {
     }
 
     @GetMapping
-    public ApiPagingRes<ActorRes> findALl(@RequestParam(required = false, defaultValue = "1") int page,
-                                          @RequestParam(required = false,defaultValue = "10") int size){
+    public ApiPagingRes<ActorRes> findALl(@RequestParam(defaultValue = "1") int page,
+                                          @RequestParam(defaultValue = "10") int size){
         return new ApiPagingRes<>(actorService.findActors(new MyPageReq(page,size).of()));
     }
 

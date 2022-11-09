@@ -25,11 +25,11 @@ public class MovieApi {
     }
 
     @GetMapping
-    public ApiPagingRes<MovieRes> findMovies(@RequestParam(required = false, defaultValue = "1") int page,
-                                             @RequestParam(required = false,defaultValue = "10") int size,
-                                             @RequestParam(required = false) String companyName,
-                                             @RequestParam(required = false) String title,
-                                             @RequestParam(required = false) String country){
+    public ApiPagingRes<MovieRes> findMovies(@RequestParam(defaultValue = "1") int page,
+                                             @RequestParam(defaultValue = "10") int size,
+                                             String companyName,
+                                             String title,
+                                             String country){
         return new ApiPagingRes<>(movieService.findMovies(new MyPageReq(page,size).of(),companyName,title,country));
     }
 

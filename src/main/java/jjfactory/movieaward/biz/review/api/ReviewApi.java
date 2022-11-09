@@ -20,15 +20,15 @@ public class ReviewApi {
     private final ReviewService reviewService;
 
     @GetMapping
-    public ApiPagingRes<ReviewRes> findMyReviews(@RequestParam(required = false, defaultValue = "1")int page,
-                                               @RequestParam(required = false, defaultValue = "10")int size,
+    public ApiPagingRes<ReviewRes> findMyReviews(@RequestParam(defaultValue = "1")int page,
+                                               @RequestParam(defaultValue = "10")int size,
                                                @RequestParam Long userId){
         return new ApiPagingRes<>(reviewService.findMyReviews(new MyPageReq(page,size).of(),userId));
     }
 
     @GetMapping("/{movieId}")
-    public ApiPagingRes<ReviewRes> findReviewsByMovieId(@RequestParam(required = false, defaultValue = "1")int page,
-                                                 @RequestParam(required = false, defaultValue = "10")int size,
+    public ApiPagingRes<ReviewRes> findReviewsByMovieId(@RequestParam(defaultValue = "1")int page,
+                                                 @RequestParam(defaultValue = "10")int size,
                                                  @PathVariable Long movieId){
         return new ApiPagingRes<>(reviewService.findReviewsByMovieId(new MyPageReq(page,size).of(),movieId));
     }

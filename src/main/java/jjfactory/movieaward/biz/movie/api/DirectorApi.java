@@ -17,8 +17,8 @@ public class DirectorApi {
     private final DirectorService directorService;
 
     @GetMapping
-    public ApiPagingRes<DirectorRes> findAll(@RequestParam(required = false, defaultValue = "1")int page,
-                                             @RequestParam(required = false, defaultValue = "10")int size){
+    public ApiPagingRes<DirectorRes> findAll(@RequestParam(defaultValue = "1")int page,
+                                             @RequestParam(defaultValue = "10")int size){
         return new ApiPagingRes<>(directorService.findAll(new MyPageReq(page,size).of()));
     }
 

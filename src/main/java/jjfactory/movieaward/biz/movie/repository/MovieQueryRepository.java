@@ -4,6 +4,7 @@ package jjfactory.movieaward.biz.movie.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jjfactory.movieaward.biz.movie.dto.req.SearchModel;
 import jjfactory.movieaward.biz.movie.dto.res.ActorDetailRes;
 import jjfactory.movieaward.biz.movie.dto.res.ActorRes;
 import jjfactory.movieaward.biz.movie.dto.res.MovieDetailRes;
@@ -71,6 +72,27 @@ public class MovieQueryRepository {
                 .where(containsCompanyName(companyName),
                         containsTitle(title),
                         eqCountry(country))
+                .fetch().size();
+
+        return new PageImpl<>(result,pageable,total);
+    }
+
+    public PageImpl<MovieRes> findMoviesInMovieIdsV2(Pageable pageable, SearchModel searchModel){
+        List<MovieRes> result = queryFactory.select(Projections.constructor(MovieRes.class, movie))
+                .from(movie)
+                .where(containsCompanyName(searchModel.getCompanyName()),
+                        containsTitle(searchModel.getTitle()),
+                        eqCountry(searchModel.getCountry()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(movie.createDate.desc())
+                .fetch();
+
+        int total = queryFactory.select(Projections.constructor(MovieRes.class, movie))
+                .from(movie)
+                .where(containsCompanyName(searchModel.getCompanyName()),
+                        containsTitle(searchModel.getTitle()),
+                        eqCountry(searchModel.getCountry()))
                 .fetch().size();
 
         return new PageImpl<>(result,pageable,total);

@@ -2,6 +2,7 @@ package jjfactory.movieaward.biz.movie.service;
 
 import jjfactory.movieaward.biz.movie.dto.req.MovieCreate;
 import jjfactory.movieaward.biz.movie.dto.req.MovieModify;
+import jjfactory.movieaward.biz.movie.dto.req.SearchModel;
 import jjfactory.movieaward.biz.movie.dto.res.MovieDetailRes;
 import jjfactory.movieaward.biz.movie.dto.res.MovieRes;
 import jjfactory.movieaward.biz.movie.entity.*;
@@ -29,6 +30,11 @@ public class MovieService {
     @Transactional(readOnly = true)
     public PagingRes<MovieRes> findMovies(Pageable pageable, String companyName, String title, String country){;
         return new PagingRes<>(movieQueryRepository.findMoviesInMovieIds(pageable,companyName,title, country));
+    }
+
+    @Transactional(readOnly = true)
+    public PagingRes<MovieRes> findMoviesV2(Pageable pageable, SearchModel searchModel){;
+        return new PagingRes<>(movieQueryRepository.findMoviesInMovieIdsV2(pageable,searchModel));
     }
 
     @Transactional(readOnly = true)

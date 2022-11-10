@@ -2,6 +2,7 @@ package jjfactory.movieaward.biz.movie.api;
 
 import jjfactory.movieaward.biz.movie.dto.req.MovieCreate;
 import jjfactory.movieaward.biz.movie.dto.req.MovieModify;
+import jjfactory.movieaward.biz.movie.dto.req.SearchModel;
 import jjfactory.movieaward.biz.movie.dto.res.MovieDetailRes;
 import jjfactory.movieaward.biz.movie.dto.res.MovieRes;
 import jjfactory.movieaward.biz.movie.service.MovieService;
@@ -31,6 +32,13 @@ public class MovieApi {
                                              String title,
                                              String country){
         return new ApiPagingRes<>(movieService.findMovies(new MyPageReq(page,size).of(),companyName,title,country));
+    }
+
+    @GetMapping("/v2")
+    public ApiPagingRes<MovieRes> findMoviesV2(@RequestParam(defaultValue = "1") int page,
+                                               @RequestParam(defaultValue = "10") int size,
+                                               SearchModel searchModel){
+        return new ApiPagingRes<>(movieService.findMoviesV2(new MyPageReq(page,size).of(),searchModel));
     }
 
     @PostMapping

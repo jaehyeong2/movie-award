@@ -8,13 +8,13 @@ import jjfactory.movieaward.biz.movie.entity.Company;
 import jjfactory.movieaward.biz.movie.entity.Movie;
 import jjfactory.movieaward.biz.movie.repository.CompanyRepository;
 import jjfactory.movieaward.biz.movie.repository.MovieQueryRepository;
+import jjfactory.movieaward.global.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -65,7 +65,7 @@ public class CompanyService {
 
     private Company getCompany(Long companyId) {
         Company company = companyRepository.findById(companyId).orElseThrow(() ->{
-            throw new NoSuchElementException();
+            throw new EntityNotFoundException();
         });
         return company;
     }

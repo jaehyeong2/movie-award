@@ -7,6 +7,7 @@ import jjfactory.movieaward.biz.award.entity.QAward;
 import jjfactory.movieaward.biz.award.entity.QCategory;
 import jjfactory.movieaward.biz.movie.entity.*;
 import jjfactory.movieaward.biz.review.dto.res.ReviewRes;
+import jjfactory.movieaward.global.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -14,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static jjfactory.movieaward.biz.award.entity.QAward.*;
 import static jjfactory.movieaward.biz.award.entity.QCategory.*;
@@ -46,21 +46,21 @@ public class AwardQueryRepository {
         List<Actor> result = queryFactory.selectFrom(actor)
                 .where(actor.name.in(names)).fetch();
 
-        if(result == null || result.size()==0) throw new NoSuchElementException();
+        if(result == null || result.size()==0) throw new EntityNotFoundException();
         return result;
     }
 
     public List<Movie> findMoviesInNames(List<String> names){
         List<Movie> result = queryFactory.selectFrom(movie)
                 .where(movie.title.in(names)).fetch();
-        if(result == null || result.size() == 0) throw new NoSuchElementException();
+        if(result == null || result.size() == 0) throw new EntityNotFoundException();
         return result;
     }
 
     public List<Director> findDirectorsInNames(List<String> names){
         List<Director> result = queryFactory.selectFrom(director)
                 .where(director.name.in(names)).fetch();
-        if(result == null || result.size() == 0) throw new NoSuchElementException();
+        if(result == null || result.size() == 0) throw new EntityNotFoundException();
         return result;
     }
 

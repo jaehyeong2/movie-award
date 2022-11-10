@@ -11,6 +11,7 @@ import jjfactory.movieaward.biz.movie.dto.res.MovieDetailRes;
 import jjfactory.movieaward.biz.movie.dto.res.MovieRes;
 import jjfactory.movieaward.biz.movie.entity.*;
 import jjfactory.movieaward.global.entity.Country;
+import jjfactory.movieaward.global.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -99,10 +100,14 @@ public class MovieQueryRepository {
     }
 
     public ActorDetailRes findActorDetails(Long actorId){
-        return queryFactory.select(Projections.constructor(ActorDetailRes.class,actor))
+        ActorDetailRes result = queryFactory.select(Projections.constructor(ActorDetailRes.class, actor))
                 .from(actor)
                 .where(actor.peopleCode.eq(actorId))
                 .fetchOne();
+
+        if(result == null) throw new EntityNotFoundException();
+
+        return result;
     }
 
     public Page<ActorRes> findActors(Pageable pageable){

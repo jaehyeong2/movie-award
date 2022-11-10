@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+
 @Slf4j
 @RestControllerAdvice
 public class CustomExceptionHandler {
@@ -15,5 +16,12 @@ public class CustomExceptionHandler {
     public ErrorResponse duplicateException(Exception e){
         log.info("duplicate exception called");
         return new ErrorResponse("403",e.getMessage());
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse entityNotFound(Exception e){
+        log.info("no such element exception called");
+        return new ErrorResponse("500",e.getMessage());
     }
 }

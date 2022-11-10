@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jjfactory.movieaward.biz.award.dto.res.AwardRes;
 import jjfactory.movieaward.biz.award.entity.QAward;
+import jjfactory.movieaward.biz.award.entity.QCategory;
 import jjfactory.movieaward.biz.movie.entity.*;
 import jjfactory.movieaward.biz.review.dto.res.ReviewRes;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static jjfactory.movieaward.biz.award.entity.QAward.*;
+import static jjfactory.movieaward.biz.award.entity.QCategory.*;
 import static jjfactory.movieaward.biz.movie.entity.QActor.*;
 import static jjfactory.movieaward.biz.movie.entity.QDirector.*;
 import static jjfactory.movieaward.biz.movie.entity.QMovie.*;
@@ -27,13 +29,13 @@ public class AwardQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     public Page<AwardRes> findAllAwards(Pageable pageable){
-        List<AwardRes> results = queryFactory.select(Projections.constructor(AwardRes.class, award))
+        List<AwardRes> results = queryFactory.select(Projections.constructor(AwardRes.class, award, category))
                 .from(award)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        int total = queryFactory.select(Projections.constructor(AwardRes.class, award))
+        int total = queryFactory.select(Projections.constructor(AwardRes.class, award,category))
                 .from(award)
                 .fetch().size();
 

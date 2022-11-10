@@ -1,6 +1,7 @@
 package jjfactory.movieaward.biz.award.dto.res;
 
 import jjfactory.movieaward.biz.award.entity.Award;
+import jjfactory.movieaward.biz.award.entity.Category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,11 +22,11 @@ public class AwardRes {
         this.awardCategory = awardCategory;
     }
 
-    public AwardRes(Award award) {
+    public AwardRes(Award award, Category category) {
         this.id = award.getId();
         this.awardName = award.getName();
         this.winnerName = award.getWinnerNames();
         this.winYear = award.getAwardYear();
-        this.awardCategory = award.getCategory().getName();
+        this.awardCategory = category.getName();
     }
 }

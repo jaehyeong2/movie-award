@@ -2,9 +2,7 @@ package jjfactory.movieaward.biz.movie.dto.req;
 
 import lombok.*;
 
-@Setter
 @Getter
-@NoArgsConstructor
 public class SearchModel {
     private String title;
     private String companyName;
